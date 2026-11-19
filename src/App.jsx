@@ -6,6 +6,7 @@ import PageHeader from './layouts/Header';
 import PageFooter from './layouts/Footer';
 import AboutPage from './pages/About/About';
 import ErrorPage from './pages/Error/Error';
+import SignInPage from './pages/SignUpLogIn/signIn';
 function App() {
   return (
     <>
@@ -15,6 +16,7 @@ function App() {
     <Route path='/About' element={<AboutPage/>}/>
     <Route path='*' element={<ErrorPage/>}/>
     </Routes>
+    <SignInPage/>
     <PageFooter/>
     </>
   );

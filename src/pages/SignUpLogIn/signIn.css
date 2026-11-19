@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+.v1 {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+    z-index: -100;
+}
+
+.border1 {
+    border-right: 1px solid black;
+    width: 50%;
+    background: rgba(90, 89, 89, 0.5);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+    padding-bottom: 10px;
+}
+
+.signUpPara1 {
+    font-family: Dancing Script;
+
+}
+
+.logo2 {
+    width: 100%;
+    height: 100%;
+}
+
+.divLOGO2 {
+    width: 70px;
+    height: 70px;
+    /* background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px); */
+    background-color: white;
+    border-radius: 50px;
+    position: absolute;
+    top:35px;
+}
+.signUpInputs{
+    border-bottom: 1px solid black;
+    /* width: 100%; */
+    margin-top: 1%;
+    outline: none;
+    color: rgb(196, 187, 187);
+    padding-left: 10%;
+    width: 100%;
+}
+.formPara1{
+    margin-bottom: 20px;
+}
+
+.inputsTitles{
+    margin-top: 5%;
+    font-weight: 600;
+    color: rgb(33, 32, 32);
+    padding-bottom: 1%;
+}
+.buttonStyle{
+    margin: 4%0%;
+    padding: 2%;
+}
+.buttonStyle:hover{
+    background-color:rgb(1, 109, 136) ;
+
+}
