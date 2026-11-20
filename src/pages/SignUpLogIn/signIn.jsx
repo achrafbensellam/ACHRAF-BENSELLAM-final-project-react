@@ -9,6 +9,7 @@ import { FaHeartPulse } from "react-icons/fa6";
 import { IoIosArrowForward } from "react-icons/io";
 import { useContext, useState } from 'react';
 import { MyContext } from '../../utils/mycontext';
+import { useNavigate } from 'react-router-dom';
 function SignInPage() {
     const { patient, setPatient, doctors, setDoctors } = useContext(MyContext);
     const [signUpName, setSignUpName] = useState('');
@@ -16,6 +17,7 @@ function SignInPage() {
     const [signUpPassword, setSignUpPassword] = useState('');
     const [signUpConfirmPassword, setSignUpConfirmPassword] = useState('');
     const [errors, setErrors] = useState('');
+    const navigateToLogin = useNavigate()
     const validate = () => {
 
         // Name
@@ -84,7 +86,14 @@ function SignInPage() {
             name: signUpName.trim(),
             email: signUpEmail.trim().toLowerCase(),
             password: signUpPassword,
-            role: "patient"
+            role: "patient",
+            phone: "",
+            dateOfBirth: "",
+            gender: "",
+            city: "",
+            image: "",
+            favorites: [],
+            createdAt: new Date().toISOString()
         };
         const updatedPatients = [...patient, newPatient];
         setPatient(updatedPatients);
@@ -95,6 +104,7 @@ function SignInPage() {
         setSignUpEmail('');
         setSignUpPassword('');
         setSignUpConfirmPassword('');
+        navigateToLogin('/login')
     }
     return (
         <>
@@ -146,7 +156,7 @@ function SignInPage() {
                             </div>
                             <p className='error'>{errors}</p>
                             <button className='bg-[rgb(70,160,253)] w-full rounded-[3px] border-none cursor-pointer text-white font-[600] buttonStyle' type='submit'>Sign Up</button>
-                            <p className='flex gap-[5px]'>Already have an account? <span className='flex justify-center items-center'>Login <span><IoIosArrowForward /></span></span> </p>
+                            <p className='flex gap-[5px]'>Already have an account? <span onClick={()=>navigateToLogin('/login')} className='flex justify-center items-center'>Login <span><IoIosArrowForward /></span></span> </p>
                         </div>
                     </form>
                 </div>
