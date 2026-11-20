@@ -67,3 +67,7 @@
     background-color:rgb(1, 109, 136) ;
 
 }
+.error{
+    color: red;
+    padding-top: 2%;
+}

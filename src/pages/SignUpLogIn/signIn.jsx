@@ -7,7 +7,95 @@ import { MdOutlineMailOutline } from "react-icons/md";
 import { MdLockOutline } from "react-icons/md";
 import { FaHeartPulse } from "react-icons/fa6";
 import { IoIosArrowForward } from "react-icons/io";
+import { useContext, useState } from 'react';
+import { MyContext } from '../../utils/mycontext';
 function SignInPage() {
+    const { patient, setPatient, doctors, setDoctors } = useContext(MyContext);
+    const [signUpName, setSignUpName] = useState('');
+    const [signUpEmail, setSignUpEmail] = useState('');
+    const [signUpPassword, setSignUpPassword] = useState('');
+    const [signUpConfirmPassword, setSignUpConfirmPassword] = useState('');
+    const [errors, setErrors] = useState('');
+    const validate = () => {
+
+        // Name
+        if (!signUpName.trim()) {
+            setErrors("Name is required");
+            return
+        } else if (signUpName.trim().length < 3) {
+            setErrors("Name must be at least 3 characters");
+            return
+        } else if (!/^[A-Za-zÀ-ÿ\s]+$/.test(signUpName)) {
+            setErrors("Name must contain letters only");
+            return
+        }
+
+        // Email
+        if (!signUpEmail.trim()) {
+            setErrors("Email is required")
+            return
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(signUpEmail)) {
+            setErrors("Enter a valid email address")
+            return
+        }
+
+        // Password
+        if (!signUpPassword) {
+            setErrors("Password is required")
+            return
+        } else if (signUpPassword.length < 6) {
+            setErrors("Password must be at least 6 characters")
+            return
+        } else if (!/\d/.test(signUpPassword)) {
+            setErrors("Password must contain at least one number")
+            return
+        }
+
+        // Confirm password
+        if (!signUpConfirmPassword) {
+            setErrors("Please confirm your password")
+            return
+        } else if (signUpPassword !== signUpConfirmPassword) {
+            setErrors("Passwords do not match")
+            return
+        }
+        setErrors('');
+        return true;
+    };
+    const preventform = (e) => {
+        e.preventDefault();
+        if (!validate()) return;
+
+        // const users = JSON.parse(localStorage.getItem("patient")) || [];
+        const existsPatient = patient.find(
+            (u) => u.email.toLowerCase() === signUpEmail.trim().toLowerCase()
+        );
+        const existsDoctor = doctors.find(
+            (u) => u.email.toLowerCase() === signUpEmail.trim().toLowerCase()
+        );
+        if (existsPatient || existsDoctor) {
+            setErrors("This email is already registered");
+            return;
+        }
+
+
+        const newPatient = {
+            id: Date.now(),
+            name: signUpName.trim(),
+            email: signUpEmail.trim().toLowerCase(),
+            password: signUpPassword,
+            role: "patient"
+        };
+        const updatedPatients = [...patient, newPatient];
+        setPatient(updatedPatients);
+        localStorage.setItem("patient", JSON.stringify(updatedPatients));
+
+        // setSuccess("Account created successfully!");
+        setSignUpName('');
+        setSignUpEmail('');
+        setSignUpPassword('');
+        setSignUpConfirmPassword('');
+    }
     return (
         <>
             <section className="">
@@ -22,7 +110,7 @@ function SignInPage() {
                     <source src={v1} type="video/mp4" />
                 </video>
                 <div className="absolute top-0 left-0 z-100 flex flex-col justify-end items-center  border1 h-screen">
-                    <form className='flex flex-col justify-center items-center border w-[70%] h-[90%] rounded-[10px] bg-[rgba(255,255,255,0.18)]'>
+                    <form onSubmit={preventform} className='flex flex-col justify-center items-center border w-[70%] h-[90%] rounded-[10px] bg-[rgba(255,255,255,0.18)]'>
                         <div className='flex flex-col justify-center items-center'>
                             <div className='divLOGO2'>
                                 <img className='logo2' src={logo} alt="" />
@@ -38,26 +126,27 @@ function SignInPage() {
                             <p className='inputsTitles'>Name : </p>
                             <div className='relative w-full'>
                                 <FaRegUser className='absolute  left-0 top-1/5 text-[rgb(134,131,131)] ' />
-                                <input className='signUpInputs' type="text" placeholder='Full Name' />
+                                <input onChange={(e) => { setSignUpName(e.target.value) }} value={signUpName} className='signUpInputs' type="text" placeholder='Full Name' />
                             </div>
                             <p className='inputsTitles'>Email :</p>
                             <div className='relative w-full'>
                                 <MdOutlineMailOutline className='absolute  left-0 top-1/5 text-[rgb(134,131,131)] ' />
-                                <input className='signUpInputs' type="email" placeholder='Email Address' />
+                                <input onChange={(e) => { setSignUpEmail(e.target.value) }} value={signUpEmail} className='signUpInputs' type="email" placeholder='Email Address' />
                             </div>
                             <p className='inputsTitles'>Password :</p>
 
                             <div className='relative w-full'>
                                 <MdLockOutline className='absolute  left-0 top-1/5 text-[rgb(134,131,131)] ' />
-                                <input className='signUpInputs' type="password" placeholder='Password' />
+                                <input onChange={(e) => { setSignUpPassword(e.target.value) }} value={signUpPassword} className='signUpInputs' type="password" placeholder='Password' />
                             </div>
                             <p className='inputsTitles'>Confirm Password :</p>
                             <div className='relative w-full'>
                                 <MdLockOutline className='absolute  left-0 top-1/5 text-[rgb(134,131,131)] ' />
-                                <input className='signUpInputs' type="password" placeholder='Confirm Password' />
+                                <input onChange={(e) => { setSignUpConfirmPassword(e.target.value) }} value={signUpConfirmPassword} className='signUpInputs' type="password" placeholder='Confirm Password' />
                             </div>
+                            <p className='error'>{errors}</p>
                             <button className='bg-[rgb(70,160,253)] w-full rounded-[3px] border-none cursor-pointer text-white font-[600] buttonStyle' type='submit'>Sign Up</button>
-                            <p className='flex gap-[5px]'>Already have an account? <span className='flex justify-center items-center'>Login <span><IoIosArrowForward/></span></span> </p>
+                            <p className='flex gap-[5px]'>Already have an account? <span className='flex justify-center items-center'>Login <span><IoIosArrowForward /></span></span> </p>
                         </div>
                     </form>
                 </div>
