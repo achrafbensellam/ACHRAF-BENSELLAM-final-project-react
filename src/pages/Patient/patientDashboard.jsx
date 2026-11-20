@@ -115,10 +115,10 @@ function PatientDashboard() {
                             My Profile
                         </Link>
 
-                        <Link to="/patient/settings" className="pd-nav-link">
+                        {/* <Link to="/patient/settings" className="pd-nav-link">
                             <FiSettings size={19} />
                             Settings
-                        </Link>
+                        </Link> */}
                     </div>
                 </nav>
 

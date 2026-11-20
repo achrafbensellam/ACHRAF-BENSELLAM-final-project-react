@@ -13,7 +13,7 @@ import SignInPage from './pages/SignUpLogIn/signIn';
 import LoginPage from './pages/SignUpLogIn/login';
 
 import PatientDashboard from './pages/Patient/patientDashboard';
-// import Doctors from './pages/Patient/doctors';
+import Doctors from './pages/Patient/doctors';
 
 function App() {
   return (
@@ -34,7 +34,7 @@ function App() {
 
       {/* Error Page */}
       <Route path="*" element={<ErrorPage />} />
-      {/* <Route path="/doctors" element={<Doctors />} /> */}
+      <Route path="/doctors" element={<Doctors />} />
 {/* <Route path="/doctors/:id" element={<DoctorDetails />} />
 <Route path="/booking/:id" element={<BookingPage />} /> */}
     </Routes>
