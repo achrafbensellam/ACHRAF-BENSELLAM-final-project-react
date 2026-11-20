@@ -2,7 +2,7 @@
 import './doctors.css';
 
 import { useContext, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MyContext } from "../../utils/mycontext";
 import {
   FiSearch,
@@ -10,7 +10,7 @@ import {
   FiStar,
   FiHeart,
   FiCalendar,
-  FiClock
+  FiClock,FiArrowLeft
 } from "react-icons/fi";
 
 
@@ -20,8 +20,7 @@ function Doctors() {
   const [search, setSearch] = useState("");
   const [selectedSpecialty, setSelectedSpecialty] = useState("All");
   const [availableOnly, setAvailableOnly] = useState(false);
-
-  
+  const navigate = useNavigate()
   const specialties = ["All"];
 
 doctors.forEach((doctor) => {
@@ -65,6 +64,13 @@ console.log(filteredDoctors);
 
   return (
     <main className="doctors-page">
+         <button
+                className="back-doctors"
+                onClick={() => navigate('/patient/dashboard')}
+              >
+                <FiArrowLeft />
+                Go Back
+              </button>
       <section className="doctors-heading">
         <span className="doctors-small-title">MEDCONNECT</span>
 

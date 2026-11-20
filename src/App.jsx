@@ -15,6 +15,7 @@ import LoginPage from './pages/SignUpLogIn/login';
 import PatientDashboard from './pages/Patient/patientDashboard';
 import Doctors from './pages/Patient/doctors';
 import DoctorDetails from './pages/Patient/doctorsDetails';
+import Booking from './pages/Patient/booking';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
       <Route path="*" element={<ErrorPage />} />
       <Route path="/doctors" element={<Doctors />} />
       <Route path="/doctors/:id" element={<DoctorDetails />} />
+      <Route path="/booking/:id" element={<Booking />} />
 {/* <Route path="/doctors/:id" element={<DoctorDetails />} />
 <Route path="/booking/:id" element={<BookingPage />} /> */}
     </Routes>

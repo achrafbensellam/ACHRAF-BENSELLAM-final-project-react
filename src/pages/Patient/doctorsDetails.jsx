@@ -36,6 +36,7 @@ function DoctorDetails() {
 
   return (
     <main className="doctor-details-page">
+        
 
       <Link to="/doctors" className="back-doctors">
         <FiArrowLeft />
