@@ -34,7 +34,7 @@ function MyAppointments() {
     const isUpcoming = (appointment) => {
         const appointmentDate = new Date(appointment.date + "T" + appointment.time);
 
-        if ( appointmentDate >= new Date() && (appointment.status === "pending" || appointment.status === "confirmed")) {
+        if (appointmentDate >= new Date() && (appointment.status === "pending" || appointment.status === "confirmed")) {
             return true;
         } else {
             return false;
@@ -217,7 +217,15 @@ function MyAppointments() {
                                         <span className={`appointment-status ${appointment.status}`}>
                                             {appointment.status}
                                         </span>
-
+                                        {appointment.status === "rejected" && appointment.rejectReason && (
+                                            <div className="patient-reject-reason">
+                                                <FiAlertCircle />
+                                                <div>
+                                                    <strong>Rejected Reason</strong>
+                                                    <p>{appointment.rejectReason}</p>
+                                                </div>
+                                            </div>
+                                        )}
                                         <Link
                                             to={`/doctors/${doctor.id}`}
                                             className="view-doctor-btn"

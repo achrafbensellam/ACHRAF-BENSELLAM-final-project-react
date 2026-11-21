@@ -57,6 +57,29 @@ function Booking() {
         });
     };
 
+    const isPastTime = (time) => {
+
+        const now = new Date();
+
+        const currentDate = now.toLocaleDateString("en-CA");
+
+        if (selectedDate === currentDate) {
+
+            const currentHours = now.getHours();
+            const currentMinutes = now.getMinutes();
+
+            const [hours, minutes] = time.split(":").map(Number);
+
+            if (
+                hours < currentHours ||
+                (hours === currentHours && minutes <= currentMinutes)
+            ) {
+                return true;
+            }
+        }
+
+        return false;
+    };
     const handleBooking = () => {
         setMessage("");
 
@@ -88,6 +111,10 @@ function Booking() {
 
         if (isBooked(selectedTime)) {
             setMessage("This time slot is already booked. Please choose another.");
+            return;
+        }
+        if (isPastTime(selectedTime)) {
+            setMessage("This time has already passed. Please choose another time.");
             return;
         }
 
@@ -132,7 +159,7 @@ function Booking() {
 
     return (
         <section className="booking-page">
-            <Sidebar/>
+            <Sidebar />
             <div className="booking-container">
                 {/* <button
                     className="booking-back"
@@ -195,11 +222,12 @@ function Booking() {
                             {availableTimes.map((time) => {
 
                                 const booked = isBooked(time);
+                                const past = isPastTime(time);
 
                                 return (
                                     <button
                                         key={time}
-                                        disabled={booked}
+                                        disabled={booked || past}
                                         className={
                                             selectedTime === time
                                                 ? "time-slot selected"
@@ -208,7 +236,9 @@ function Booking() {
                                         onClick={() => setSelectedTime(time)}
                                     >
                                         {time}
+
                                         {booked && " (Booked)"}
+                                        {past && " (Passed)"}
                                     </button>
                                 );
                             })}
