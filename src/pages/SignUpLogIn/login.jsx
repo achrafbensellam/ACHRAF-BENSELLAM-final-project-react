@@ -54,7 +54,14 @@ function LoginPage() {
 
         // Save logged user
         setCurrentUser(user);
-        navigateToDashboard("/patient/dashboard");
+        // navigateToDashboard("/patient/dashboard");
+        if (user.role === "patient") {
+            navigateToDashboard("/patient/dashboard");
+        }
+        else if (user.role === "doctor") {
+            navigateToDashboard("/doctor/dashboard");
+        }
+   
         localStorage.setItem('loggedUser', JSON.stringify(user));
         // alert(`Welcome ${user.name}!`);
     };
