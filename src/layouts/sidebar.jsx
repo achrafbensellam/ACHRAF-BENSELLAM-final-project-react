@@ -59,7 +59,7 @@ function Sidebar() {
                     <FiHeart />
                     Favorite Doctors
                 </NavLink>
-
+                
                 {/* <p className="sidebar-heading">Account</p>
 
                 <Link to="/patient/profile">
