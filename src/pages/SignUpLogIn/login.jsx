@@ -56,7 +56,7 @@ function LoginPage() {
         setCurrentUser(user);
         navigateToDashboard("/patient/dashboard");
         localStorage.setItem('loggedUser', JSON.stringify(user));
-        alert(`Welcome ${user.name}!`);
+        // alert(`Welcome ${user.name}!`);
     };
     const navigateTosignUp=useNavigate();
     return (

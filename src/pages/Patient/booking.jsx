@@ -2,6 +2,7 @@ import './booking.css'
 import { useContext, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { MyContext } from "../../utils/mycontext";
+import Sidebar from '../../layouts/sidebar';
 function Booking() {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -131,14 +132,14 @@ function Booking() {
 
     return (
         <section className="booking-page">
-
+            <Sidebar/>
             <div className="booking-container">
-                <button
+                {/* <button
                     className="booking-back"
                     onClick={() => navigate(-1)}
                 >
                     ← Go Back
-                </button>
+                </button> */}
                 <div className="booking-header">
                     <h1>Book Your Appointment</h1>
                     <p>Choose your preferred date and time</p>

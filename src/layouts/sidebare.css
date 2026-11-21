@@ -1,0 +1,340 @@
+.patient-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 260px;
+    height: 100vh;
+
+    background: #ffffff;
+    border-right: 1px solid #e8eef2;
+
+    padding: 25px 18px;
+color: black;
+    overflow-y: auto;
+    z-index: 1000;
+}
+.patient-sidebar h2 {
+    color: #173b4d;
+    font-size: 23px;
+    margin-bottom: 45px;
+    text-align: center;
+}
+
+.patient-sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.patient-sidebar nav a {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    padding: 14px 16px;
+    border-radius: 10px;
+
+    color: #526575;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+
+    transition: 0.3s;
+}
+
+.patient-sidebar nav a:hover {
+    background: #eaf7f6;
+    color: #159b91;
+}
+.patient-sidebar h2 {
+    margin-bottom: 35px;
+    text-align: center;
+}
+
+.patient-sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.patient-sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px;
+    /* color: white; */
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+.patient-sidebar a:hover {
+    background: #159b91;
+    color: white;
+}
+
+.patient-page {
+    display: flex;
+    min-height: 100vh;
+}
+
+.patient-page-content {
+    flex: 1;
+    min-width: 0;
+    padding: 30px;
+}
+
+.patient-sidebar {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-navigation {
+    flex: 1;
+}
+
+.sidebar-logout {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid #e8eef2;
+}
+
+.sidebar-logout button {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    width: 100%;
+    padding: 14px 16px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: transparent;
+    color: #e05252;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.sidebar-logout button:hover {
+    background: #fff0f0;
+}
+.sidebar-navigation a.active {
+    background: #eaf7f6;
+    color: #159b91;
+    font-weight: 600;
+}
+/* Tablet */
+@media (max-width: 1024px) {
+    .patient-sidebar {
+        width: 200px;
+    }
+
+    .patient-page-content {
+        padding: 20px;
+    }
+}
+
+/* Phone */
+/* @media (max-width: 640px) {
+    .patient-page {
+        flex-direction: column;
+    }
+
+    .patient-sidebar {
+        width: 100%;
+        min-height: auto;
+        padding: 10px;
+    }
+
+    .patient-sidebar h2 {
+        margin: 5px 0 10px;
+    }
+
+    .patient-sidebar nav {
+        flex-direction: row;
+        justify-content: space-around;
+        gap: 5px;
+    }
+
+    .patient-sidebar a {
+        flex-direction: column;
+        gap: 5px;
+        padding: 8px 5px;
+        font-size: 11px;
+        text-align: center;
+    }
+
+    .patient-page-content {
+        padding: 15px;
+    }
+} */
+
+/* ================= MOBILE SIDEBAR ================= */
+
+@media (max-width: 640px) {
+
+    .patient-sidebar {
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+
+        width: 100%;
+        height: auto;
+        min-height: 0;
+
+        padding: 8px 5px;
+        padding-bottom: calc(8px + env(safe-area-inset-bottom));
+
+        background: #ffffff;
+        border-top: 1px solid #e8eef2;
+        border-right: none;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        overflow: visible;
+        z-index: 1000;
+        box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Hide Logo */
+    .sidebar-logo {
+        display: none;
+    }
+
+    /* Hide Main Menu and Account headings */
+    .sidebar-heading {
+        display: none;
+    }
+
+    /* Navigation */
+    .sidebar-navigation {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        gap: 2px;
+        min-width: 0;
+    }
+
+    .sidebar-navigation a {
+        flex: 1;
+        min-width: 0;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        gap: 5px;
+        padding: 9px 2px;
+
+        border-radius: 10px;
+
+        font-size: 10px;
+        text-align: center;
+        line-height: 1.3;
+    }
+
+    .sidebar-navigation a svg {
+        width: 19px;
+        height: 19px;
+        flex-shrink: 0;
+    }
+
+    /* Logout */
+    .sidebar-logout {
+        flex: 0 0 auto;
+        margin: 0;
+        padding: 0 3px;
+        border: none;
+    }
+
+    .sidebar-logout button {
+        width: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        gap: 5px;
+        padding: 9px 7px;
+
+        font-size: 10px;
+    }
+
+    .sidebar-logout button svg {
+        width: 19px;
+        height: 19px;
+    }
+
+    /* Dashboard content */
+    .pd-main {
+        margin-left: 0;
+        width: 100%;
+        padding: 15px;
+        padding-bottom: 110px;
+    }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .patient-sidebar {
+        width: 210px;
+    }
+
+    .pd-main {
+        margin-left: 210px;
+        width: calc(100% - 210px);
+        padding: 20px;
+    }
+}
+
+/* Phone */
+@media (max-width: 640px) {
+    .patient-sidebar {
+        top: auto;
+        bottom: 0;
+        left: 0;
+
+        width: 100%;
+        height: auto;
+
+        padding: 10px 5px;
+
+        border-right: none;
+        border-top: 1px solid #e8eef2;
+    }
+
+    .patient-sidebar h2 {
+        display: none;
+    }
+
+    .patient-sidebar nav {
+        flex-direction: row;
+        justify-content: space-around;
+        gap: 3px;
+    }
+
+    .patient-sidebar nav a {
+        flex-direction: column;
+        gap: 5px;
+        padding: 8px 4px;
+        font-size: 10px;
+    }
+
+    .pd-main {
+        margin-left: 0;
+        width: 100%;
+        padding: 15px;
+        padding-bottom: 100px;
+    }
+}

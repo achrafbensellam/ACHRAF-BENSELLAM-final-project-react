@@ -20,6 +20,7 @@ import {
 } from "react-icons/fi";
 
 import "./PatientDashboard.css";
+import Sidebar from "../../layouts/sidebar";
 
 function PatientDashboard() {
     const {currentUser,doctors,appointments,setCurrentUser} = useContext(MyContext);
@@ -31,44 +32,44 @@ function PatientDashboard() {
         );
     }
 
-    // const myAppointments = appointments.filter(
-    //     (appointment) => appointment.patientId === currentUser.id
-    // );
+    const myAppointments = appointments.filter(
+        (appointment) => appointment.patientId === currentUser.id
+    );
 
-    // const upcomingAppointments = myAppointments.filter(
-    //     (appointment) =>
-    //         ["pending", "confirmed"].includes(appointment.status) &&
-    //         new Date(`${appointment.date}T${appointment.time || "00:00"}`) >= new Date()
-    // );
+    const upcomingAppointments = myAppointments.filter(
+        (appointment) =>
+            ["pending", "confirmed"].includes(appointment.status) &&
+            new Date(`${appointment.date}T${appointment.time || "00:00"}`) >= new Date()
+    );
 
-    // const completedAppointments = myAppointments.filter(
-    //     (appointment) => appointment.status === "completed"
-    // );
+    const completedAppointments = myAppointments.filter(
+        (appointment) => appointment.status === "completed"
+    );
 
-    // const cancelledAppointments = myAppointments.filter(
-    //     (appointment) => appointment.status === "cancelled"
-    // );
+    const cancelledAppointments = myAppointments.filter(
+        (appointment) => appointment.status === "cancelled"
+    );
 
-    // const nextAppointment = [...upcomingAppointments].sort(
-    //     (a, b) =>
-    //         new Date(`${a.date}T${a.time || "00:00"}`) -
-    //         new Date(`${b.date}T${b.time || "00:00"}`)
-    // )[0];
+    const nextAppointment = [...upcomingAppointments].sort(
+        (a, b) =>
+            new Date(`${a.date}T${a.time || "00:00"}`) -
+            new Date(`${b.date}T${b.time || "00:00"}`)
+    )[0];
 
-    // const favoriteDoctors = doctors.filter(
-    //     (doctor) => currentUser.favorites?.includes(doctor.id)
-    // );
+    const favoriteDoctors = doctors.filter(
+        (doctor) => currentUser.favorites?.includes(doctor.id)
+    );
 
-    // const getDoctor = (doctorId) =>
-    //     doctors.find((doctor) => doctor.id === doctorId);
+    const getDoctor = (doctorId) =>
+        doctors.find((doctor) => doctor.id === doctorId);
 
-    // const formatDate = (date) =>
-    //     new Date(date).toLocaleDateString("en-US", {
-    //         weekday: "short",
-    //         day: "numeric",
-    //         month: "short",
-    //         year: "numeric"
-    //     });
+    const formatDate = (date) =>
+        new Date(date).toLocaleDateString("en-US", {
+            weekday: "short",
+            day: "numeric",
+            month: "short",
+            year: "numeric"
+        });
 
     const handleLogout = () => {
         setCurrentUser(null);
@@ -76,9 +77,9 @@ function PatientDashboard() {
     };
 
     return (
-        <div className="pd-layout">
+        <div className="patient-page">
             {/* SIDEBAR */}
-            <aside className="pd-sidebar">
+            {/* <aside className="pd-sidebar">
                 <div className="pd-logo">
                     <h1>Med<span>Connect</span></h1>
                     <p>Your Health, Our Priority</p>
@@ -115,10 +116,10 @@ function PatientDashboard() {
                             My Profile
                         </Link>
 
-                        {/* <Link to="/patient/settings" className="pd-nav-link">
+                        <Link to="/patient/settings" className="pd-nav-link">
                             <FiSettings size={19} />
                             Settings
-                        </Link> */}
+                        </Link>
                     </div>
                 </nav>
 
@@ -128,8 +129,8 @@ function PatientDashboard() {
                         Logout
                     </button>
                 </div>
-            </aside>
-
+            </aside> */}
+            <Sidebar/>
             {/* MAIN CONTENT */}
             <main className="pd-main">
                 <header className="pd-header">
@@ -190,7 +191,7 @@ function PatientDashboard() {
                             <span>Upcoming</span>
                         </div>
                         {/* //!! */}
-                        {/* <h3>{upcomingAppointments.length}</h3> */}
+                        <h3>{upcomingAppointments.length}</h3>
                         <p>Upcoming appointments</p>
                     </div>
 
@@ -200,7 +201,7 @@ function PatientDashboard() {
                             <span>Completed</span>
                         </div>
                         {/* //!! */}
-                        {/* <h3>{completedAppointments.length}</h3> */}
+                        <h3>{completedAppointments.length}</h3>
                         <p>Completed appointments</p>
                     </div>
 
@@ -210,7 +211,7 @@ function PatientDashboard() {
                             <span>Cancelled</span>
                         </div>
                         {/* //!! */}
-                        {/* <h3>{cancelledAppointments.length}</h3> */}
+                        <h3>{cancelledAppointments.length}</h3>
                         <p>Cancelled appointments</p>
                     </div>
 
@@ -238,7 +239,7 @@ function PatientDashboard() {
                             </Link>
                         </div>
 
-                        {/* {nextAppointment ? (
+                        {nextAppointment ? (
                             (() => {
                                 const doctor = getDoctor(nextAppointment.doctorId);
 
@@ -290,7 +291,7 @@ function PatientDashboard() {
                                     Book an Appointment
                                 </Link>
                             </div>
-                        )} */}
+                        )}
                     </div>
 
                     <div className="pd-panel pd-quick-panel">
@@ -337,7 +338,7 @@ function PatientDashboard() {
                         </Link>
                     </div>
 
-                    {/* {favoriteDoctors.length > 0 ? (
+                    {favoriteDoctors.length > 0 ? (
                         <div className="pd-favorites-grid">
                             {favoriteDoctors.slice(0, 3).map((doctor) => (
                                 <div key={doctor.id} className="pd-favorite-card">
@@ -362,7 +363,7 @@ function PatientDashboard() {
                                 Explore Doctors
                             </Link>
                         </div>
-                    )} */}
+                    )}
                 </section>
 
                 <footer className="pd-footer">

@@ -12,6 +12,7 @@ import {
   FiCalendar,
   FiClock,FiArrowLeft
 } from "react-icons/fi";
+import Sidebar from '../../layouts/sidebar';
 
 
 function Doctors() {
@@ -64,13 +65,14 @@ console.log(filteredDoctors);
 
   return (
     <main className="doctors-page">
-         <button
+      <Sidebar/>
+         {/* <button
                 className="back-doctors"
                 onClick={() => navigate('/patient/dashboard')}
               >
                 <FiArrowLeft />
                 Go Back
-              </button>
+              </button> */}
       <section className="doctors-heading">
         <span className="doctors-small-title">MEDCONNECT</span>
 

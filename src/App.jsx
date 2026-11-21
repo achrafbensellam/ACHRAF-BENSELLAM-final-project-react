@@ -16,31 +16,20 @@ import PatientDashboard from './pages/Patient/patientDashboard';
 import Doctors from './pages/Patient/doctors';
 import DoctorDetails from './pages/Patient/doctorsDetails';
 import Booking from './pages/Patient/booking';
+import MyAppointments from './pages/Patient/patienAppointment';
 
 function App() {
   return (
     <Routes>
-
-      {/* Public Pages */}
-      <Route path="/" element={
-        <LoginPage />
-      } />
+      <Route path="/" element={ <LoginPage />} />
       <Route path="/signup" element={<SignInPage />} />
       <Route path="/login" element={<LoginPage />} />
-
-      {/* Patient Pages */}
-      <Route
-        path="/patient/dashboard"
-        element={<PatientDashboard />}
-      />
-
-      {/* Error Page */}
+      <Route path="/patient/dashboard" element={<PatientDashboard />}/>
       <Route path="*" element={<ErrorPage />} />
       <Route path="/doctors" element={<Doctors />} />
       <Route path="/doctors/:id" element={<DoctorDetails />} />
       <Route path="/booking/:id" element={<Booking />} />
-{/* <Route path="/doctors/:id" element={<DoctorDetails />} />
-<Route path="/booking/:id" element={<BookingPage />} /> */}
+      <Route path="/patient/appointments" element={<MyAppointments />}/>
     </Routes>
   );
 }
