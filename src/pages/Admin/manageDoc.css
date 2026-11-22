@@ -1,0 +1,441 @@
+
+/* =========================
+   MAIN PAGE
+========================= */
+
+.manage-doctors {
+    min-height: 100vh;
+    margin-left: 260px;
+    width: calc(100% - 260px);
+    padding: 40px 4%;
+    background: #f7fafb;
+    color: #193344;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.doctors-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 35px;
+}
+
+.doctors-header h1 {
+    color: #173b4d;
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.doctors-header p {
+    color: #71838c;
+    font-size: 14px;
+}
+
+/* Add Doctor Button */
+
+.add-doctor-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 20px;
+    background: #159b91;
+    color: white;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.add-doctor-btn:hover {
+    background: #117e77;
+}
+
+/* =========================
+   SEARCH AND COUNT
+========================= */
+
+.doctors-tools {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    padding: 18px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(25, 60, 75, 0.05);
+}
+
+.doctors-tools input {
+    width: 65%;
+    padding: 13px 15px;
+    border: 1px solid #e4ebed;
+    border-radius: 9px;
+    outline: none;
+    font-size: 14px;
+    background: #f4f8f9;
+    color: #193344;
+}
+
+.doctors-tools input:focus {
+    border-color: #159b91;
+}
+
+.doctors-tools p {
+    color: #71838c;
+    font-size: 14px;
+}
+
+.doctors-tools strong {
+    color: #159b91;
+}
+
+/* =========================
+   MESSAGE
+========================= */
+
+.doctor-message {
+    padding: 13px;
+    margin-bottom: 20px;
+    background: #f7e8e8;
+    color: #7e1111;
+    border: 1px solid #c8ece7;
+    border-radius: 9px;
+    font-size: 14px;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.doctor-form-container {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    margin-bottom: 30px;
+    border: 1px solid #eaf0f1;
+    box-shadow: 0 5px 25px rgba(25, 60, 75, 0.06);
+}
+
+.doctor-form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.doctor-form-header h2 {
+    color: #173b4d;
+    font-size: 21px;
+}
+
+.doctor-form-header button {
+    background: #ffe4e4;
+    color: #b94a4a;
+    border: none;
+    border-radius: 7px;
+    padding: 9px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.doctor-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.doctor-form-grid label {
+    display: block;
+    margin-bottom: 8px;
+    color: #536c78;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.doctor-form-grid input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e4ebed;
+    border-radius: 8px;
+    outline: none;
+    box-sizing: border-box;
+    font-size: 14px;
+    background: #f9fbfc;
+    color: #193344;
+}
+
+.doctor-form-grid input:focus {
+    border-color: #159b91;
+    background: white;
+}
+
+/* Form Buttons */
+
+.doctor-form-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.save-doctor-btn,
+.cancel-doctor-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.save-doctor-btn {
+    background: #159b91;
+    color: white;
+}
+
+.save-doctor-btn:hover {
+    background: #117e77;
+}
+
+.cancel-doctor-btn {
+    background: #eaf0f1;
+    color: #536c78;
+}
+
+.cancel-doctor-btn:hover {
+    background: #dce7e9;
+}
+
+/* =========================
+   DOCTORS LIST
+========================= */
+
+.doctors-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+/* Scoped selector to avoid conflicts with Doctors page */
+
+.manage-doctors .doctor-card {
+    background: white;
+    border: 1px solid #eaf0f1;
+    border-radius: 14px;
+    padding: 20px;
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    box-shadow: 0 5px 20px rgba(25, 60, 75, 0.05);
+    transition: 0.3s;
+}
+
+.manage-doctors .doctor-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(25, 60, 75, 0.09);
+}
+
+.manage-doctors .doctor-card > img {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #e7f3f3;
+    border: 3px solid #e8f7f5;
+}
+
+.doctor-card-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.doctor-card-info h3 {
+    color: #173b4d;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.doctor-card-info p {
+    color: #81939b;
+    font-size: 12px;
+    margin-bottom: 7px;
+    overflow-wrap: anywhere;
+}
+
+/* Specialty */
+
+.manage-doctors .doctor-card-info .doctor-specialty {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: #e8f7f5;
+    color: #159b91;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Price */
+
+.manage-doctors .doctor-card-info .doctor-price {
+    color: #159b91;
+    font-size: 15px;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+/* Availability */
+
+.doctor-available,
+.doctor-unavailable {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+.doctor-available {
+    background: #d9f8eb;
+    color: #087e61;
+}
+
+.doctor-unavailable {
+    background: #ffe4e4;
+    color: #b94a4a;
+}
+
+/* =========================
+   CARD ACTIONS
+========================= */
+
+.doctor-card-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.doctor-card-actions button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 9px 11px;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+/* Edit */
+
+.edit-doctor-btn {
+    background: #e8f7f5;
+    color: #159b91;
+}
+
+.edit-doctor-btn:hover {
+    background: #cceee9;
+}
+
+/* Delete */
+
+.delete-doctor-btn {
+    background: #ffe4e4;
+    color: #b94a4a;
+}
+
+.delete-doctor-btn:hover {
+    background: #ffd1d1;
+}
+
+/* =========================
+   EMPTY RESULTS
+========================= */
+
+.no-doctors {
+    grid-column: 1 / -1;
+    background: white;
+    padding: 45px;
+    text-align: center;
+    color: #81939b;
+    border-radius: 12px;
+    border: 1px solid #eaf0f1;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1200px) {
+    .doctors-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 1024px) {
+    .manage-doctors {
+        margin-left: 210px;
+        width: calc(100% - 210px);
+        padding: 30px 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    .manage-doctors {
+        margin-left: 0;
+        width: 100%;
+        padding: 30px 15px 120px;
+    }
+
+    .doctors-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .doctors-header h1 {
+        font-size: 25px;
+    }
+
+    .doctors-tools {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .doctors-tools input {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .doctor-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .manage-doctors .doctor-card {
+        flex-wrap: wrap;
+    }
+
+    .doctor-card-actions {
+        width: 100%;
+        flex-direction: row;
+    }
+
+    .doctor-card-actions button {
+        flex: 1;
+    }
+
+    .doctor-form-buttons {
+        flex-direction: column;
+    }
+}
