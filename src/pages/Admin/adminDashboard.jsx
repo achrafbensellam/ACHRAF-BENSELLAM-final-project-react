@@ -10,6 +10,7 @@ import {
     FiCalendar,
     FiClock
 } from "react-icons/fi";
+import AdminSidebar from '../../layouts/adminSidebar';
 
 function AdminDashboard() {
 
@@ -62,6 +63,8 @@ function AdminDashboard() {
     const recentAppointments = appointments.slice(-5).reverse();
 
     return (
+        <>
+        <AdminSidebar/>
         <div className="admin-dashboard">
 
             {/* Header */}
@@ -184,7 +187,9 @@ function AdminDashboard() {
             </div>
 
         </div>
+        </>
     );
+
 }
 
 export default AdminDashboard;
