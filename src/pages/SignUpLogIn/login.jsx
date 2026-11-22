@@ -1,221 +1,278 @@
-import './login.css'
-import v2 from '../../assets/videos/v2.mp4'
-import logo from '../../assets/img/logo2.png'
-import { FaRegUser } from "react-icons/fa";
-import { MdOutlineMailOutline } from "react-icons/md";
-import { MdLockOutline } from "react-icons/md";
+
+import './login.css';
+
+import v2 from '../../assets/videos/v2.mp4';
+import logo from '../../assets/img/logo2.png';
+
+import { MdOutlineMailOutline, MdLockOutline } from "react-icons/md";
 import { FaHeartPulse } from "react-icons/fa6";
 import { IoIosArrowForward } from "react-icons/io";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+
 import { useState, useContext } from 'react';
 import { MyContext } from '../../utils/mycontext';
 import { useNavigate } from 'react-router-dom';
+
 function LoginPage() {
-    const { patient, setPatient, doctors, setDoctors, currentUser, setCurrentUser, adminAccount } = useContext(MyContext)
+
+    const {
+        patient,
+        doctors,
+        setCurrentUser,
+        adminAccount
+    } = useContext(MyContext);
+
     const [loginEmail, setLoginEmail] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
     const [errors, setErrors] = useState('');
-    const navigateToDashboard = useNavigate()
+    const [showPassword, setShowPassword] = useState(false);
+
+    const navigate = useNavigate();
+
     const handleLogin = (e) => {
         e.preventDefault();
 
-        // Check empty inputs
-        if (loginEmail.trim() === '' || loginPassword === '') {
-            setErrors('Please fill in all fields');
+        const email = loginEmail.trim().toLowerCase();
+
+        // Check Empty Inputs
+        if (email === '' || loginPassword === '') {
+            setErrors('Please fill in all fields.');
             return;
         }
-         // Check Admin
-    if (loginEmail.trim().toLowerCase() === adminAccount.email && loginPassword === adminAccount.password) {
-        setErrors('');
-        setCurrentUser(adminAccount);
-        navigateToDashboard("/admin/dashboard");
-        return;
-    }
-        // Search for patient
-        const foundPatient = patient.find(
-            (user) => user.email.toLowerCase() === loginEmail.trim().toLowerCase()
+
+        // Check Admin
+        if (
+            email === adminAccount.email.toLowerCase() &&
+            loginPassword === adminAccount.password
+        ) {
+            setErrors('');
+            setCurrentUser(adminAccount);
+            navigate('/admin/dashboard');
+            return;
+        }
+
+        // Search Patient
+        const foundPatient = patient.find((user) =>
+            user.email.toLowerCase() === email
         );
 
-        // Search for doctor
-        const foundDoctor = doctors.find(
-            (user) => user.email.toLowerCase() === loginEmail.trim().toLowerCase()
+        // Search Doctor
+        const foundDoctor = doctors.find((user) =>
+            user.email.toLowerCase() === email
         );
 
-        // Check if account exists
+        // Check Account
         if (!foundPatient && !foundDoctor) {
-            setErrors('Email does not exist');
+            setErrors('Email does not exist.');
             return;
         }
 
-        // Get user
         const user = foundPatient || foundDoctor;
 
-        // Check password
+        // Check Password
         if (user.password !== loginPassword) {
-            setErrors('Incorrect password');
+            setErrors('Incorrect password.');
             return;
         }
 
-        // Login successful
+        // Login Successful
         setErrors('');
-
-        // Save logged user
         setCurrentUser(user);
-        // navigateToDashboard("/patient/dashboard");
+
+        // Navigate According to Role
         if (user.role === "patient") {
-            navigateToDashboard("/patient/dashboard");
+            navigate('/patient/dashboard');
+        } else if (user.role === "doctor") {
+            navigate('/doctor/dashboard');
         }
-        else if (user.role === "doctor") {      
-            navigateToDashboard("/doctor/dashboard");
-        }
-   
-        // localStorage.setItem('loggedUser', JSON.stringify(user));
-        // alert(`Welcome ${user.name}!`);
     };
-    const navigateTosignUp=useNavigate();
+
     return (
-        <>
+        <section className="login-page">
 
-            <section className="">
+            {/* VIDEO BACKGROUND */}
+            <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="login-video"
+            >
+                <source src={v2} type="video/mp4" />
+            </video>
 
-                <video
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    className="v1"
+            {/* DARK OVERLAY */}
+            <div className="login-overlay"></div>
+
+            {/* LEFT SIDE TEXT */}
+            <div className="login-welcome">
+
+                <div className="welcome-icon">
+                    <FaHeartPulse />
+                </div>
+
+                <p className="welcome-title">
+                    Welcome Back
+                </p>
+
+                <p className="welcome-subtitle">
+                    to a healthier life.
+                </p>
+
+                <p className="welcome-description">
+                    Your health journey starts here.
+                    Access your appointments and manage your healthcare
+                    with MedConnect.
+                </p>
+
+            </div>
+
+            {/* LOGIN FORM */}
+            <div className="login-container">
+
+                <form
+                    onSubmit={handleLogin}
+                    className="login-form"
                 >
-                    <source src={v2} type="video/mp4" />
-                </video>
 
-                <div className="absolute top-0 right-0 z-100 flex flex-col justify-end items-center border1 h-screen">
+                    {/* LOGO */}
+                    <div className="login-brand">
 
-                    <form
-                        onSubmit={handleLogin}
-                        className='flex flex-col justify-center items-center border w-[70%] h-[90%] rounded-[10px] bg-[rgba(255,255,255,0.18)]'
-                    >
+                        <img
+                            src={logo}
+                            alt="MedConnect Logo"
+                            className="login-logo"
+                        />
 
-                        {/* LOGO */}
-                        <div className='flex flex-col justify-center items-center'>
+                        <h1 className="brand-name">
+                            Med<span>Connect</span>
+                        </h1>
 
-                            <div className='divLOGO2'>
-                                <img className='logo2' src={logo} alt="MedConnect Logo" />
-                            </div>
+                        <p className="brand-description">
+                            Your Health, Our Priority
+                        </p>
 
-                            <p className='w-full flex text-4xl text-[#0b2d6b] font-[600]'>
-                                <span>Med</span>
-                                <span className='text-[#2563eb] flex'>
-                                    C
-                                    <span>
-                                        <FaHeartPulse className='text-[#ef4444] text-4xl relative top-2' />
-                                    </span>
-                                    nnect
-                                </span>
-                            </p>
+                    </div>
 
-                            <p className='text-white formPara1'>
-                                Your Health, Our Priority
-                            </p>
+                    {/* FORM TITLE */}
+                    <div className="login-heading">
+
+                        <h2>Welcome Back!</h2>
+
+                        <p>
+                            Login to access your account
+                        </p>
+
+                    </div>
+
+                    {/* EMAIL */}
+                    <div className="login-input-group">
+
+                        <label htmlFor="login-email">
+                            Email Address
+                        </label>
+
+                        <div className="login-input-wrapper">
+
+                            <MdOutlineMailOutline className="login-input-icon" />
+
+                            <input
+                                id="login-email"
+                                type="email"
+                                placeholder="Enter your email"
+                                value={loginEmail}
+                                onChange={(e) => {
+                                    setLoginEmail(e.target.value);
+                                    setErrors('');
+                                }}
+                                autoComplete="email"
+                                required
+                            />
 
                         </div>
 
-                        {/* TITLE */}
-                        <div className='text-center formPara2'>
-                            <p className='text-[22px] font-[700]'>
-                                Welcome Back!
-                            </p>
+                    </div>
 
-                            <p className='text-[15px]'>
-                                Login to access your account
-                            </p>
-                        </div>
+                    {/* PASSWORD */}
+                    <div className="login-input-group">
 
-                        {/* INPUTS */}
-                        <div className='w-[80%]'>
+                        <label htmlFor="login-password">
+                            Password
+                        </label>
 
-                            {/* EMAIL */}
-                            <p className='inputsTitles'>Email :</p>
+                        <div className="login-input-wrapper">
 
-                            <div className='relative w-full'>
+                            <MdLockOutline className="login-input-icon" />
 
-                                <MdOutlineMailOutline className='absolute left-0 top-1/5 text-[rgb(134,131,131)]' />
+                            <input
+                                id="login-password"
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Enter your password"
+                                value={loginPassword}
+                                onChange={(e) => {
+                                    setLoginPassword(e.target.value);
+                                    setErrors('');
+                                }}
+                                autoComplete="current-password"
+                                required
+                            />
 
-                                <input
-                                    onChange={(e) => setLoginEmail(e.target.value)}
-                                    value={loginEmail}
-                                    className='signUpInputs'
-                                    type="email"
-                                    placeholder='Email Address'
-                                />
-
-                            </div>
-
-                            {/* PASSWORD */}
-                            <p className='inputsTitles'>Password :</p>
-
-                            <div className='relative w-full'>
-
-                                <MdLockOutline className='absolute left-0 top-1/5 text-[rgb(134,131,131)]' />
-
-                                <input
-                                    onChange={(e) => setLoginPassword(e.target.value)}
-                                    value={loginPassword}
-                                    className='signUpInputs'
-                                    type="password"
-                                    placeholder='Password'
-                                />
-
-                            </div>
-
-                            {/* FORGOT PASSWORD */}
-                            <div className='flex justify-end mt-2 mb-3'>
-                                {/* <p className='text-[#0b2d6b] cursor-pointer font-[600] text-sm'>
-                                    Forgot Password?
-                                </p> */}
-                            </div>
-
-                            {/* ERRORS */}
-                            <p className='error'>{errors}</p>
-
-                            {/* LOGIN BUTTON */}
                             <button
-                                className='bg-[rgb(70,160,253)] w-full rounded-[3px] border-none cursor-pointer text-white font-[600] buttonStyle'
-                                type='submit'
+                                type="button"
+                                className="password-toggle"
+                                onClick={() => setShowPassword(!showPassword)}
+                                aria-label={showPassword ? "Hide password" : "Show password"}
                             >
-                                Login
+                                {showPassword ? <FiEyeOff /> : <FiEye />}
                             </button>
 
-                            {/* SIGN UP LINK */}
-                            <p className='flex gap-[5px] justify-center mt-4'>
-                                Don't have an account?
-
-                                <span onClick={()=>navigateTosignUp('/signup')}  className='flex justify-center items-center text-[#0b2d6b] font-[700] cursor-pointer'>
-                                    Sign Up
-                                    <IoIosArrowForward />
-                                </span>
-                            </p>
-
                         </div>
 
-                    </form>
+                    </div>
 
-                </div>
+                    {/* ERROR MESSAGE */}
+                    {errors && (
+                        <p className="login-error" role="alert">
+                            {errors}
+                        </p>
+                    )}
 
-                {/* SIDE TEXT */}
-                <div className='absolute bottom-10 left-10 z-400'>
+                    {/* LOGIN BUTTON */}
+                    <button
+                        type="submit"
+                        className="login-button"
+                    >
+                        Login
+                        <IoIosArrowForward />
+                    </button>
 
-                    <p className='text-[60px] font-[900] text-[rgb(2,17,50)]'>
-                        Welcome Back
+                    {/* SIGN UP */}
+                    <div className="signup-text">
+
+                        <p>Don't have an account?</p>
+
+                        <button
+                            type="button"
+                            onClick={() => navigate('/signup')}
+                            className="signup-link"
+                        >
+                            Sign Up
+                            <IoIosArrowForward />
+                        </button>
+
+                    </div>
+
+                    {/* FOOTER */}
+                    <p className="login-footer">
+                        © 2026 MedConnect. All rights reserved.
                     </p>
 
-                    <p className='signUpPara1 text-[30px] tracking-[10px] font-[700]'>
-                        to a healthier life.
-                    </p>
+                </form>
 
-                </div>
+            </div>
 
-            </section>
-
-        </>
-    )
+        </section>
+    );
 }
+
 export default LoginPage;
