@@ -10,7 +10,7 @@ import { useState, useContext } from 'react';
 import { MyContext } from '../../utils/mycontext';
 import { useNavigate } from 'react-router-dom';
 function LoginPage() {
-    const { patient, setPatient, doctors, setDoctors, currentUser, setCurrentUser } = useContext(MyContext)
+    const { patient, setPatient, doctors, setDoctors, currentUser, setCurrentUser, adminAccount } = useContext(MyContext)
     const [loginEmail, setLoginEmail] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
     const [errors, setErrors] = useState('');
@@ -23,7 +23,13 @@ function LoginPage() {
             setErrors('Please fill in all fields');
             return;
         }
-
+         // Check Admin
+    if (loginEmail.trim().toLowerCase() === adminAccount.email && loginPassword === adminAccount.password) {
+        setErrors('');
+        setCurrentUser(adminAccount);
+        navigateToDashboard("/admin/dashboard");
+        return;
+    }
         // Search for patient
         const foundPatient = patient.find(
             (user) => user.email.toLowerCase() === loginEmail.trim().toLowerCase()
@@ -58,11 +64,11 @@ function LoginPage() {
         if (user.role === "patient") {
             navigateToDashboard("/patient/dashboard");
         }
-        else if (user.role === "doctor") {
+        else if (user.role === "doctor") {      
             navigateToDashboard("/doctor/dashboard");
         }
    
-        localStorage.setItem('loggedUser', JSON.stringify(user));
+        // localStorage.setItem('loggedUser', JSON.stringify(user));
         // alert(`Welcome ${user.name}!`);
     };
     const navigateTosignUp=useNavigate();

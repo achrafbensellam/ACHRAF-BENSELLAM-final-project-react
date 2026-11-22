@@ -1,6 +1,13 @@
 import { createContext, useEffect, useState } from "react";
 export const MyContext = createContext();
 export const MyProvider = ({ children }) => {
+  const adminAccount = {
+    id: "admin-1",
+    name: "Admin",
+    email: "admin@medconnect.com",
+    password: "admin123",
+    role: "admin"
+};
   const [patient, setPatient] = useState(
     ()=>{ return JSON.parse(localStorage.getItem("patient")) || []}
   );
@@ -248,7 +255,7 @@ useEffect(() => {
 }, [appointments]);
 
   return (
-    <MyContext.Provider value={{ patient,setPatient,doctors, setDoctors,currentUser, setCurrentUser,appointments, setAppointments}}>
+    <MyContext.Provider value={{ patient,setPatient,doctors, setDoctors,currentUser, setCurrentUser,appointments, setAppointments,adminAccount}}>
       {children}
     </MyContext.Provider>
   )
