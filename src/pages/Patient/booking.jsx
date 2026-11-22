@@ -20,7 +20,27 @@ function Booking() {
     const [selectedDate, setSelectedDate] = useState("");
     const [selectedTime, setSelectedTime] = useState("");
     const [message, setMessage] = useState("");
+    
+    const isDayOff = doctor?.daysOff?.includes(selectedDate);
+const dayNames = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+];
 
+let selectedDay = "";
+
+if (selectedDate) {
+    selectedDay = dayNames[
+        new Date(selectedDate + "T00:00:00").getDay()
+    ];
+}
+
+const isWorkingDay = doctor?.workingDays?.includes(selectedDay);
     const availableTimes = [];
 
     if (doctor && doctor.workingHours) {
@@ -104,10 +124,10 @@ function Booking() {
             return;
         }
 
-        if (doctor.daysOff && doctor.daysOff.includes(selectedDate)) {
-            setMessage("The doctor is not available on this day.");
-            return;
-        }
+        // if (doctor.daysOff && doctor.daysOff.includes(selectedDate)) {
+        //     setMessage("The doctor is not available on this day.");
+        //     return;
+        // }
 
         if (isBooked(selectedTime)) {
             setMessage("This time slot is already booked. Please choose another.");
@@ -117,7 +137,14 @@ function Booking() {
             setMessage("This time has already passed. Please choose another time.");
             return;
         }
-
+if (isDayOff) {
+    setMessage("The doctor is not available on this day.");
+    return;
+}
+if (!isWorkingDay) {
+    setMessage("The doctor does not work on this day.");
+    return;
+}
         const newAppointment = {
             id: Date.now(),
             patientId: currentUser.id,
@@ -216,6 +243,16 @@ function Booking() {
                         <p className="booking-hint">
                             Please select a date first.
                         </p>
+                        ) : isDayOff ? (
+
+    <p className="booking-message">
+        The doctor is not available on this day.
+    </p>
+    ) : !isWorkingDay ? (
+
+    <p className="booking-message">
+        The doctor does not work on this day.
+    </p>
                     ) : (
                         <div className="booking-times">
 

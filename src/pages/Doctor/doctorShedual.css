@@ -1,0 +1,363 @@
+
+/* =========================
+   Main Layout
+========================= */
+
+.doctor-schedule-layout {
+    min-height: 100vh;
+    background: #f5f8fa;
+}
+
+.doctor-schedule-page {
+    margin-left: 260px;
+    width: calc(100% - 260px);
+    min-height: 100vh;
+    padding: 40px;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    color: #193344;
+}
+
+/* =========================
+   Header
+========================= */
+
+.schedule-header {
+    margin-bottom: 30px;
+}
+
+.schedule-header h1 {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.schedule-header p {
+    color: #82919b;
+    font-size: 14px;
+}
+
+/* =========================
+   Schedule Cards
+========================= */
+
+.schedule-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 22px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.04);
+}
+
+.schedule-card-title {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-bottom: 22px;
+}
+
+.schedule-card-title > svg {
+    font-size: 23px;
+    color: #269b9b;
+}
+
+.schedule-card-title h2 {
+    font-size: 18px;
+    margin-bottom: 6px;
+}
+
+.schedule-card-title p {
+    font-size: 12px;
+    color: #82919b;
+}
+
+/* =========================
+   Working Days
+========================= */
+
+.working-days-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.working-day {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px;
+    background: #f7f9fa;
+    border: 1px solid #e7edef;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.working-day:hover {
+    border-color: #269b9b;
+}
+
+.working-day input {
+    width: 17px;
+    height: 17px;
+    accent-color: #269b9b;
+    cursor: pointer;
+}
+
+.working-day span {
+    font-size: 13px;
+    color: #526572;
+}
+
+/* =========================
+   Working Hours
+========================= */
+
+.working-hours-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.schedule-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.schedule-input-group label {
+    font-size: 13px;
+    font-weight: bold;
+    color: #526572;
+}
+
+.schedule-input-group input,
+.schedule-input-group select {
+    width: 100%;
+    height: 45px;
+    padding: 0 12px;
+    border: 1px solid #e1e8ec;
+    border-radius: 8px;
+    outline: none;
+    background: white;
+    color: #193344;
+    font-size: 13px;
+    box-sizing: border-box;
+}
+
+.schedule-input-group input:focus,
+.schedule-input-group select:focus {
+    border-color: #269b9b;
+}
+
+/* Appointment Duration */
+
+.duration-group {
+    max-width: 300px;
+}
+
+/* =========================
+   Days Off
+========================= */
+
+.add-day-off {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.add-day-off input {
+    height: 43px;
+    padding: 0 12px;
+    border: 1px solid #e1e8ec;
+    border-radius: 8px;
+    outline: none;
+    font-size: 13px;
+    color: #193344;
+}
+
+.add-day-off input:focus {
+    border-color: #269b9b;
+}
+
+.add-day-off button {
+    height: 43px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 8px;
+    background: #269b9b;
+    color: white;
+    cursor: pointer;
+    font-size: 12px;
+    transition: 0.3s;
+}
+
+.add-day-off button:hover {
+    background: #1d8282;
+}
+
+.days-off-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.no-days-off {
+    color: #82919b;
+    font-size: 13px;
+}
+
+.day-off-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: #fff5f5;
+    border: 1px solid #ffe1e1;
+    border-radius: 8px;
+    color: #526572;
+    font-size: 13px;
+}
+
+.day-off-item button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 7px;
+    background: #ffe5e5;
+    color: #dc4c4c;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.day-off-item button:hover {
+    background: #dc4c4c;
+    color: white;
+}
+
+/* =========================
+   Save Schedule
+========================= */
+
+.save-schedule-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 25px;
+}
+
+.schedule-message {
+    color: #269b9b;
+    font-size: 13px;
+}
+
+.save-schedule-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 13px 22px;
+    border: none;
+    border-radius: 8px;
+    background: #269b9b;
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.save-schedule-btn:hover {
+    background: #1d8282;
+}
+
+/* =========================
+   Tablet
+========================= */
+
+@media (max-width: 1024px) {
+
+    .doctor-schedule-page {
+        margin-left: 210px;
+        width: calc(100% - 210px);
+        padding: 30px 20px;
+    }
+
+    .working-days-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+}
+
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width: 640px) {
+
+    .doctor-schedule-page {
+        margin-left: 0;
+        width: 100%;
+        padding: 25px 15px 120px;
+    }
+
+    .schedule-header h1 {
+        font-size: 23px;
+    }
+
+    .schedule-card {
+        padding: 18px;
+    }
+
+    .schedule-card-title h2 {
+        font-size: 16px;
+    }
+
+    .working-days-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 9px;
+    }
+
+    .working-day {
+        padding: 12px 9px;
+        gap: 7px;
+    }
+
+    .working-day span {
+        font-size: 11px;
+    }
+
+    .working-hours-form {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .duration-group {
+        max-width: 100%;
+    }
+
+    .add-day-off {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .add-day-off input,
+    .add-day-off button {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .save-schedule-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .save-schedule-btn {
+        width: 100%;
+    }
+
+}

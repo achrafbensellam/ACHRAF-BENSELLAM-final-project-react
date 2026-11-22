@@ -5,7 +5,7 @@ export const MyProvider = ({ children }) => {
     ()=>{ return JSON.parse(localStorage.getItem("patient")) || []}
   );
  
-const [doctors, setDoctors] = useState([
+const initialDoctors = [
    {
     id: 1,
     name: "Dr. Amira Benali",
@@ -216,13 +216,28 @@ const [doctors, setDoctors] = useState([
     slotDuration: 30,
     daysOff: []
   }
-]);
+];
+const [doctors, setDoctors] = useState(() => {
+    const savedDoctors = localStorage.getItem("doctors");
 
+    if (savedDoctors) {
+        return JSON.parse(savedDoctors);
+    } else {
+        return initialDoctors;
+    }
+});
+useEffect(() => {
+    localStorage.setItem("doctors", JSON.stringify(doctors));
+}, [doctors]);
   // current user:
   const [currentUser, setCurrentUser] = useState(
     () => JSON.parse(localStorage.getItem('loggedUser')) || null
 );
-
+useEffect(() => {
+    if (currentUser) {
+        localStorage.setItem("loggedUser", JSON.stringify(currentUser));
+    }
+}, [currentUser]);
 
 const [appointments, setAppointments] = useState(
     () => JSON.parse(localStorage.getItem("appointments")) || []
