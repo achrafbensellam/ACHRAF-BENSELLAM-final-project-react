@@ -25,6 +25,7 @@ import MySchedule from './pages/Doctor/doctorShedual';
 import AdminDashboard from './pages/Admin/adminDashboard';
 import ManageDoctors from './pages/Admin/manageDoc';
 import ManagePatients from './pages/Admin/managePatient';
+import ManageAppointments from './pages/Admin/adminManageApp';
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
       <Route path="/admin/dashboard" element={<AdminDashboard />}/>
       <Route path="/admin/doctors" element={<ManageDoctors />}/>
       <Route path="/admin/patients" element={<ManagePatients />}/>
+      <Route path="/admin/appointments" element={<ManageAppointments />}/>
     </Routes>
   );
 }

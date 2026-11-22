@@ -67,10 +67,10 @@ function AdminSidebar() {
                     <span>Manage Appointments</span>
                 </NavLink>
 
-                <NavLink to="/admin/specialties">
+                {/* <NavLink to="/admin/specialties">
                     <FiSettings />
                     <span>Manage Specialties</span>
-                </NavLink>
+                </NavLink> */}
 
             </nav>
 
