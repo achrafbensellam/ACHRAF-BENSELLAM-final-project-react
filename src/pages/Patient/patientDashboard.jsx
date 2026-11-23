@@ -1,14 +1,13 @@
+
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { MyContext } from "../../utils/mycontext";
+import Sidebar from "../../layouts/sidebar";
+
 import {
-    FiHome,
     FiCalendar,
     FiHeart,
     FiUser,
-    FiSettings,
-    FiLogOut,
-    FiSearch,
     FiBell,
     FiClock,
     FiCheckCircle,
@@ -16,363 +15,739 @@ import {
     FiArrowRight,
     FiMapPin,
     FiPlus,
-    FiActivity
+    FiActivity,
+    FiSearch
 } from "react-icons/fi";
 
-import "./PatientDashboard.css";
-import Sidebar from "../../layouts/sidebar";
-
 function PatientDashboard() {
-    const {currentUser,doctors,appointments,setCurrentUser} = useContext(MyContext);
+
+    const {
+        currentUser,
+        doctors,
+        appointments
+    } = useContext(MyContext);
+
     if (!currentUser) {
         return (
-            <div className="pd-login-message">
-                <p>Please login first.</p>
+            <div className="min-h-screen flex items-center justify-center bg-slate-50 text-slate-600 text-lg">
+                Please login first.
             </div>
         );
     }
 
+    // Get current patient's appointments
     const myAppointments = appointments.filter(
-        (appointment) => appointment.patientId === currentUser.id
+        (appointment) =>
+            String(appointment.patientId) === String(currentUser.id)
     );
 
+    // Upcoming appointments
     const upcomingAppointments = myAppointments.filter(
         (appointment) =>
             ["pending", "confirmed"].includes(appointment.status) &&
             new Date(`${appointment.date}T${appointment.time || "00:00"}`) >= new Date()
     );
 
+    // Completed appointments
     const completedAppointments = myAppointments.filter(
         (appointment) => appointment.status === "completed"
     );
 
+    // Cancelled appointments
     const cancelledAppointments = myAppointments.filter(
         (appointment) => appointment.status === "cancelled"
     );
 
+    // Get next appointment
     const nextAppointment = [...upcomingAppointments].sort(
         (a, b) =>
             new Date(`${a.date}T${a.time || "00:00"}`) -
             new Date(`${b.date}T${b.time || "00:00"}`)
     )[0];
 
+    // Get favorite doctors
     const favoriteDoctors = doctors.filter(
         (doctor) => currentUser.favorites?.includes(doctor.id)
     );
 
+    // Get doctor information
     const getDoctor = (doctorId) =>
-        doctors.find((doctor) => doctor.id === doctorId);
+        doctors.find(
+            (doctor) => String(doctor.id) === String(doctorId)
+        );
 
+    const nextDoctor = nextAppointment
+        ? getDoctor(nextAppointment.doctorId)
+        : null;
+
+    // Format appointment date
     const formatDate = (date) =>
-        new Date(date).toLocaleDateString("en-US", {
+        new Date(`${date}T00:00:00`).toLocaleDateString("en-US", {
             weekday: "short",
             day: "numeric",
             month: "short",
             year: "numeric"
         });
 
-    const handleLogout = () => {
-        setCurrentUser(null);
-        localStorage.removeItem("loggedUser");
-    };
-
     return (
-        <div className="patient-page">
+        <div className="min-h-screen bg-[#f8fafc] text-slate-800">
+
             {/* SIDEBAR */}
-            {/* <aside className="pd-sidebar">
-                <div className="pd-logo">
-                    <h1>Med<span>Connect</span></h1>
-                    <p>Your Health, Our Priority</p>
-                </div>
+            <Sidebar />
 
-                <nav className="pd-navigation">
-                    <p className="pd-nav-heading">Main Menu</p>
-
-                    <Link to="/patient/dashboard" className="pd-nav-link active">
-                        <FiHome size={19} />
-                        Dashboard
-                    </Link>
-
-                    <Link to="/patient/appointments" className="pd-nav-link">
-                        <FiCalendar size={19} />
-                        My Appointments
-                    </Link>
-
-                    <Link to="/doctors" className="pd-nav-link">
-                        <FiSearch size={19} />
-                        Find Doctors
-                    </Link>
-
-                    <Link to="/patient/favorites" className="pd-nav-link">
-                        <FiHeart size={19} />
-                        Favorite Doctors
-                    </Link>
-
-                    <div className="pd-account-nav">
-                        <p className="pd-nav-heading">Account</p>
-
-                        <Link to="/patient/profile" className="pd-nav-link">
-                            <FiUser size={19} />
-                            My Profile
-                        </Link>
-
-                        <Link to="/patient/settings" className="pd-nav-link">
-                            <FiSettings size={19} />
-                            Settings
-                        </Link>
-                    </div>
-                </nav>
-
-                <div className="pd-logout-area">
-                    <button onClick={handleLogout} className="pd-logout-button">
-                        <FiLogOut size={19} />
-                        Logout
-                    </button>
-                </div>
-            </aside> */}
-            <Sidebar/>
             {/* MAIN CONTENT */}
-            <main className="pd-main">
-                <header className="pd-header">
+            <main className="
+                ml-[260px] w-[calc(100%-260px)] min-h-screen
+                p-[30px] box-border
+                max-[900px]:ml-0 max-[900px]:w-full
+                max-[650px]:p-5
+                max-[390px]:px-[15px]
+            ">
+
+                {/* HEADER */}
+                <header className="
+                    flex items-center justify-between gap-5 mb-8
+                    max-[650px]:flex-col
+                    max-[650px]:items-start
+                    max-[650px]:mb-6
+                ">
+
                     <div>
-                        <p className="pd-muted pd-welcome">Welcome back </p>
-                        <h2>Hello, {currentUser.name}</h2>
-                        <p className="pd-subtitle">
+                        <p className="text-sm text-slate-400 mb-1">
+                            Welcome back
+                        </p>
+
+                        <h2 className="
+                            text-[29px] font-bold tracking-tight text-slate-800
+                            max-[650px]:text-[25px]
+                        ">
+                            Hello, {currentUser.name}
+                        </h2>
+
+                        <p className="text-sm text-slate-500 mt-2">
                             Here's what's happening with your health today.
                         </p>
                     </div>
 
-                    <div className="pd-header-actions">
-                        <button className="pd-notification-button" aria-label="Notifications">
+                    <div className="
+                        flex items-center gap-4
+                        max-[650px]:w-full
+                        max-[650px]:justify-between
+                    ">
+
+                        <button
+                            type="button"
+                            aria-label="Notifications"
+                            className="
+                                w-[46px] h-[46px] grid place-items-center
+                                border border-slate-200 rounded-xl
+                                bg-white text-slate-500
+                                hover:text-blue-600 hover:border-blue-200
+                                transition
+                            "
+                        >
                             <FiBell size={20} />
                         </button>
 
-                        <Link to="/patient/profile" className="pd-user-link">
-                            <div className="pd-avatar">
+                        <Link
+                            to="/patient/profile"
+                            className="flex items-center gap-3"
+                        >
+
+                            <div className="
+                                w-11 h-11 flex items-center justify-center
+                                overflow-hidden rounded-full bg-blue-100
+                            ">
                                 {currentUser.image ? (
-                                    <img src={currentUser.image} alt="Profile" />
+                                    <img
+                                        src={currentUser.image}
+                                        alt="Profile"
+                                        className="w-full h-full object-cover"
+                                    />
                                 ) : (
-                                    <FiUser className="pd-avatar-icon" size={22} />
+                                    <FiUser size={22} className="text-blue-600" />
                                 )}
                             </div>
 
-                            <div className="pd-user-info">
-                                <p>{currentUser.name}</p>
-                                <span>Patient</span>
+                            <div className="max-[390px]:hidden">
+                                <p className="text-[13px] font-bold text-slate-800">
+                                    {currentUser.name}
+                                </p>
+
+                                <span className="block text-[11px] text-slate-400 mt-1">
+                                    Patient
+                                </span>
                             </div>
+
                         </Link>
                     </div>
                 </header>
 
                 {/* WELCOME BANNER */}
-                <section className="pd-banner">
-                    <div className="pd-banner-content">
-                        <p className="pd-banner-eyebrow">Your health matters</p>
-                        <h2>Take care of your health with MedConnect</h2>
-                        <p className="pd-banner-description">
+                <section className="
+                    relative overflow-hidden mb-[30px]
+                    p-8 rounded-[18px]
+                    bg-gradient-to-r from-blue-700 to-blue-500
+                    text-white
+                    max-[650px]:p-6
+                    max-[390px]:p-5
+                ">
+
+                    <div className="relative z-10 max-w-[540px]">
+
+                        <p className="text-[13px] text-blue-100 mb-2">
+                            Your health matters
+                        </p>
+
+                        <h2 className="
+                            text-[30px] leading-tight font-bold mb-3
+                            max-[650px]:text-[25px]
+                            max-[390px]:text-[22px]
+                        ">
+                            Take care of your health with MedConnect
+                        </h2>
+
+                        <p className="
+                            max-w-[480px] text-[13px] leading-7
+                            text-blue-100 mb-6
+                        ">
                             Find trusted doctors, book appointments and manage your
                             healthcare easily.
                         </p>
 
-                        <Link to="/doctors" className="pd-primary-button">
+                        <Link
+                            to="/doctors"
+                            className="
+                                inline-flex items-center justify-center gap-2
+                                px-5 py-3 rounded-xl
+                                bg-white text-blue-700
+                                text-[13px] font-bold
+                                hover:bg-blue-50 hover:-translate-y-0.5
+                                transition
+                            "
+                        >
                             Find a Doctor
                             <FiArrowRight />
                         </Link>
+
                     </div>
 
-                    <FiActivity className="pd-banner-decoration" />
+                    <FiActivity className="
+                        absolute -right-6 -bottom-9
+                        w-[250px] h-[250px]
+                        text-white/10
+                        max-[650px]:w-[190px]
+                        max-[650px]:h-[190px]
+                        max-[650px]:-right-16
+                    " />
+
                 </section>
 
                 {/* STATISTICS */}
-                <section className="pd-stats-grid">
-                    <div className="pd-stat-card">
-                        <div className="pd-stat-top">
-                            <div className="pd-stat-icon blue"><FiCalendar size={22} /></div>
-                            <span>Upcoming</span>
+                <section className="
+                    grid grid-cols-4 gap-[18px] mb-8
+                    max-[1100px]:grid-cols-2
+                    max-[390px]:grid-cols-1
+                    max-[390px]:gap-3
+                ">
+
+                    {/* Upcoming */}
+                    <div className="
+                        p-5 rounded-[17px] bg-white
+                        border border-slate-100
+                        shadow-sm
+                        max-[650px]:p-4
+                    ">
+
+                        <div className="flex items-center justify-between">
+                            <div className="
+                                w-11 h-11 grid place-items-center
+                                rounded-xl bg-blue-50 text-blue-600
+                            ">
+                                <FiCalendar size={22} />
+                            </div>
+
+                            <span className="text-[11px] text-slate-400">
+                                Upcoming
+                            </span>
                         </div>
-                        {/* //!! */}
-                        <h3>{upcomingAppointments.length}</h3>
-                        <p>Upcoming appointments</p>
+
+                        <h3 className="text-[30px] font-bold mt-4 mb-1">
+                            {upcomingAppointments.length}
+                        </h3>
+
+                        <p className="text-xs text-slate-500">
+                            Upcoming appointments
+                        </p>
                     </div>
 
-                    <div className="pd-stat-card">
-                        <div className="pd-stat-top">
-                            <div className="pd-stat-icon green"><FiCheckCircle size={22} /></div>
-                            <span>Completed</span>
+                    {/* Completed */}
+                    <div className="
+                        p-5 rounded-[17px] bg-white
+                        border border-slate-100 shadow-sm
+                        max-[650px]:p-4
+                    ">
+
+                        <div className="flex items-center justify-between">
+                            <div className="
+                                w-11 h-11 grid place-items-center
+                                rounded-xl bg-green-50 text-green-600
+                            ">
+                                <FiCheckCircle size={22} />
+                            </div>
+
+                            <span className="text-[11px] text-slate-400">
+                                Completed
+                            </span>
                         </div>
-                        {/* //!! */}
-                        <h3>{completedAppointments.length}</h3>
-                        <p>Completed appointments</p>
+
+                        <h3 className="text-[30px] font-bold mt-4 mb-1">
+                            {completedAppointments.length}
+                        </h3>
+
+                        <p className="text-xs text-slate-500">
+                            Completed appointments
+                        </p>
                     </div>
 
-                    <div className="pd-stat-card">
-                        <div className="pd-stat-top">
-                            <div className="pd-stat-icon red"><FiXCircle size={22} /></div>
-                            <span>Cancelled</span>
+                    {/* Cancelled */}
+                    <div className="
+                        p-5 rounded-[17px] bg-white
+                        border border-slate-100 shadow-sm
+                        max-[650px]:p-4
+                    ">
+
+                        <div className="flex items-center justify-between">
+                            <div className="
+                                w-11 h-11 grid place-items-center
+                                rounded-xl bg-red-50 text-red-500
+                            ">
+                                <FiXCircle size={22} />
+                            </div>
+
+                            <span className="text-[11px] text-slate-400">
+                                Cancelled
+                            </span>
                         </div>
-                        {/* //!! */}
-                        <h3>{cancelledAppointments.length}</h3>
-                        <p>Cancelled appointments</p>
+
+                        <h3 className="text-[30px] font-bold mt-4 mb-1">
+                            {cancelledAppointments.length}
+                        </h3>
+
+                        <p className="text-xs text-slate-500">
+                            Cancelled appointments
+                        </p>
                     </div>
 
-                    <div className="pd-stat-card">
-                        <div className="pd-stat-top">
-                            <div className="pd-stat-icon pink"><FiHeart size={22} /></div>
-                            <span>Favorites</span>
+                    {/* Favorites */}
+                    <div className="
+                        p-5 rounded-[17px] bg-white
+                        border border-slate-100 shadow-sm
+                        max-[650px]:p-4
+                    ">
+
+                        <div className="flex items-center justify-between">
+                            <div className="
+                                w-11 h-11 grid place-items-center
+                                rounded-xl bg-pink-50 text-pink-500
+                            ">
+                                <FiHeart size={22} />
+                            </div>
+
+                            <span className="text-[11px] text-slate-400">
+                                Favorites
+                            </span>
                         </div>
-                        {/* //!! */}
-                        {/* <h3>{favoriteDoctors.length}</h3> */}
-                        <p>Favorite doctors</p>
+
+                        <h3 className="text-[30px] font-bold mt-4 mb-1">
+                            {favoriteDoctors.length}
+                        </h3>
+
+                        <p className="text-xs text-slate-500">
+                            Favorite doctors
+                        </p>
                     </div>
+
                 </section>
 
                 {/* APPOINTMENT AND QUICK ACTIONS */}
-                <section className="pd-content-grid">
-                    <div className="pd-panel pd-next-panel">
-                        <div className="pd-panel-heading">
+                <section className="
+                    grid grid-cols-[minmax(0,2fr)_minmax(260px,1fr)]
+                    gap-[22px] mb-[30px]
+                    max-[1100px]:grid-cols-1
+                ">
+
+                    {/* NEXT APPOINTMENT */}
+                    <div className="
+                        p-6 rounded-[17px] bg-white
+                        border border-slate-100 shadow-sm
+                        max-[650px]:p-[18px]
+                    ">
+
+                        <div className="
+                            flex items-center justify-between gap-4 mb-6
+                        ">
+
                             <div>
-                                <h3>Next Appointment</h3>
-                                <p>Your nearest scheduled visit</p>
+                                <h3 className="text-[17px] font-bold">
+                                    Next Appointment
+                                </h3>
+
+                                <p className="text-xs text-slate-400 mt-1">
+                                    Your nearest scheduled visit
+                                </p>
                             </div>
-                            <Link to="/patient/appointments" className="pd-text-link">
+
+                            <Link
+                                to="/patient/appointments"
+                                className="text-xs font-bold text-blue-600 whitespace-nowrap hover:underline"
+                            >
                                 View All
                             </Link>
+
                         </div>
 
                         {nextAppointment ? (
-                            (() => {
-                                const doctor = getDoctor(nextAppointment.doctorId);
 
-                                return (
-                                    <div className="pd-next-appointment">
-                                        <div className="pd-doctor-image">
-                                            {doctor?.image && (
-                                                <img src={doctor.image} alt={doctor.name} />
-                                            )}
-                                        </div>
+                            <div className="
+                                flex items-center gap-4 p-5
+                                rounded-[15px] bg-blue-50
+                                max-[650px]:flex-wrap
+                                max-[650px]:p-4
+                            ">
 
-                                        <div className="pd-appointment-info">
-                                            <h4>{doctor?.name || "Doctor"}</h4>
-                                            <p className="pd-doctor-specialty">
-                                                {doctor?.specialty || "Medical appointment"}
-                                            </p>
+                                <div className="
+                                    w-16 h-16 shrink-0 overflow-hidden
+                                    rounded-[14px] bg-white
+                                ">
+                                    {nextDoctor?.image && (
+                                        <img
+                                            src={nextDoctor.image}
+                                            alt={nextDoctor.name}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    )}
+                                </div>
 
-                                            <div className="pd-appointment-meta">
-                                                <span>
-                                                    <FiCalendar />
-                                                    {formatDate(nextAppointment.date)}
-                                                </span>
-                                                <span>
-                                                    <FiClock />
-                                                    {nextAppointment.time || "Time not specified"}
-                                                </span>
-                                            </div>
-                                        </div>
+                                <div className="flex-1 min-w-0">
 
-                                        <span className={`pd-status ${
-                                            nextAppointment.status === "confirmed"
-                                                ? "confirmed"
-                                                : "pending"
-                                        }`}>
-                                            {nextAppointment.status}
+                                    <h4 className="text-sm font-bold text-slate-800">
+                                        {nextDoctor?.name || "Doctor"}
+                                    </h4>
+
+                                    <p className="text-xs text-blue-600 mt-1">
+                                        {nextDoctor?.specialty || "Medical appointment"}
+                                    </p>
+
+                                    <div className="
+                                        flex flex-wrap gap-4 mt-3
+                                        max-[390px]:flex-col
+                                        max-[390px]:gap-2
+                                    ">
+
+                                        <span className="inline-flex items-center gap-1 text-[11px] text-slate-500">
+                                            <FiCalendar />
+                                            {formatDate(nextAppointment.date)}
                                         </span>
+
+                                        <span className="inline-flex items-center gap-1 text-[11px] text-slate-500">
+                                            <FiClock />
+                                            {nextAppointment.time || "Time not specified"}
+                                        </span>
+
                                     </div>
-                                );
-                            })()
+                                </div>
+
+                                <span className={`
+                                    px-3 py-2 rounded-full text-[10px] font-bold capitalize
+                                    max-[650px]:ml-20
+                                    ${nextAppointment.status === "confirmed"
+                                        ? "bg-green-100 text-green-700"
+                                        : "bg-amber-100 text-amber-700"
+                                    }
+                                `}>
+                                    {nextAppointment.status}
+                                </span>
+
+                            </div>
+
                         ) : (
-                            <div className="pd-empty-state">
-                                <div className="pd-empty-icon">
+
+                            <div className="
+                                p-9 rounded-[15px] bg-slate-50 text-center
+                                max-[650px]:p-6
+                            ">
+
+                                <div className="
+                                    w-14 h-14 grid place-items-center
+                                    mx-auto mb-4 rounded-full
+                                    bg-blue-100 text-blue-600
+                                ">
                                     <FiCalendar size={25} />
                                 </div>
-                                <h4>No upcoming appointments</h4>
-                                <p>You haven't booked an appointment yet.</p>
-                                <Link to="/doctors" className="pd-primary-button">
+
+                                <h4 className="text-sm font-bold text-slate-700">
+                                    No upcoming appointments
+                                </h4>
+
+                                <p className="text-xs text-slate-400 mt-2 mb-5">
+                                    You haven't booked an appointment yet.
+                                </p>
+
+                                <Link
+                                    to="/doctors"
+                                    className="
+                                        inline-flex items-center justify-center gap-2
+                                        px-5 py-3 rounded-xl
+                                        bg-blue-600 text-white
+                                        text-xs font-bold
+                                        hover:bg-blue-700 transition
+                                    "
+                                >
                                     <FiPlus />
                                     Book an Appointment
                                 </Link>
+
                             </div>
                         )}
+
                     </div>
 
-                    <div className="pd-panel pd-quick-panel">
-                        <h3>Quick Actions</h3>
-                        <p className="pd-panel-description">What would you like to do?</p>
+                    {/* QUICK ACTIONS */}
+                    <div className="
+                        p-6 rounded-[17px] bg-white
+                        border border-slate-100 shadow-sm
+                        max-[650px]:p-[18px]
+                    ">
 
-                        <div className="pd-quick-list">
-                            <Link to="/doctors" className="pd-quick-link blue-quick">
-                                <div className="pd-quick-icon blue"><FiSearch size={20} /></div>
+                        <h3 className="text-[17px] font-bold">
+                            Quick Actions
+                        </h3>
+
+                        <p className="text-xs text-slate-400 mt-1 mb-5">
+                            What would you like to do?
+                        </p>
+
+                        <div className="flex flex-col gap-3">
+
+                            <Link
+                                to="/doctors"
+                                className="
+                                    flex items-center gap-3 p-3 rounded-xl
+                                    bg-blue-50 hover:bg-blue-100
+                                    transition hover:translate-x-1
+                                "
+                            >
+                                <div className="
+                                    w-[42px] h-[42px] shrink-0
+                                    grid place-items-center rounded-xl
+                                    bg-white text-blue-600
+                                ">
+                                    <FiSearch size={20} />
+                                </div>
+
                                 <div>
-                                    <p>Find a Doctor</p>
-                                    <span>Explore specialists</span>
+                                    <p className="text-xs font-bold text-slate-800">
+                                        Find a Doctor
+                                    </p>
+
+                                    <span className="block text-[10px] text-slate-400 mt-1">
+                                        Explore specialists
+                                    </span>
                                 </div>
                             </Link>
 
-                            <Link to="/patient/appointments" className="pd-quick-link green-quick">
-                                <div className="pd-quick-icon green"><FiCalendar size={20} /></div>
+                            <Link
+                                to="/patient/appointments"
+                                className="
+                                    flex items-center gap-3 p-3 rounded-xl
+                                    bg-green-50 hover:bg-green-100
+                                    transition hover:translate-x-1
+                                "
+                            >
+                                <div className="
+                                    w-[42px] h-[42px] shrink-0
+                                    grid place-items-center rounded-xl
+                                    bg-white text-green-600
+                                ">
+                                    <FiCalendar size={20} />
+                                </div>
+
                                 <div>
-                                    <p>My Appointments</p>
-                                    <span>Manage your visits</span>
+                                    <p className="text-xs font-bold text-slate-800">
+                                        My Appointments
+                                    </p>
+
+                                    <span className="block text-[10px] text-slate-400 mt-1">
+                                        Manage your visits
+                                    </span>
                                 </div>
                             </Link>
 
-                            <Link to="/patient/profile" className="pd-quick-link purple-quick">
-                                <div className="pd-quick-icon purple"><FiUser size={20} /></div>
-                                <div>
-                                    <p>My Profile</p>
-                                    <span>Update your information</span>
+                            {/* <Link
+                                to="/patient/profile"
+                                className="
+                                    flex items-center gap-3 p-3 rounded-xl
+                                    bg-purple-50 hover:bg-purple-100
+                                    transition hover:translate-x-1
+                                "
+                            >
+                                <div className="
+                                    w-[42px] h-[42px] shrink-0
+                                    grid place-items-center rounded-xl
+                                    bg-white text-purple-600
+                                ">
+                                    <FiUser size={20} />
                                 </div>
-                            </Link>
+
+                                <div>
+                                    <p className="text-xs font-bold text-slate-800">
+                                        My Profile
+                                    </p>
+
+                                    <span className="block text-[10px] text-slate-400 mt-1">
+                                        Update your information
+                                    </span>
+                                </div>
+                            </Link> */}
+
                         </div>
                     </div>
+
                 </section>
 
                 {/* FAVORITE DOCTORS */}
-                <section className="pd-panel pd-favorites-panel">
-                    <div className="pd-panel-heading">
+                <section className="
+                    p-6 rounded-[17px] bg-white
+                    border border-slate-100 shadow-sm
+                    mb-[25px]
+                    max-[650px]:p-[18px]
+                ">
+
+                    <div className="
+                        flex items-center justify-between gap-4 mb-6
+                    ">
+
                         <div>
-                            <h3>Favorite Doctors</h3>
-                            <p>Your saved medical specialists</p>
+                            <h3 className="text-[17px] font-bold">
+                                Favorite Doctors
+                            </h3>
+
+                            <p className="text-xs text-slate-400 mt-1">
+                                Your saved medical specialists
+                            </p>
                         </div>
-                        <Link to="/patient/favorites" className="pd-text-link">
+
+                        <Link
+                            to="/patient/favorites"
+                            className="text-xs font-bold text-blue-600 whitespace-nowrap hover:underline"
+                        >
                             View All
                         </Link>
+
                     </div>
 
                     {favoriteDoctors.length > 0 ? (
-                        <div className="pd-favorites-grid">
+
+                        <div className="
+                            grid grid-cols-3 gap-4
+                            max-[1100px]:grid-cols-2
+                            max-[650px]:grid-cols-1
+                        ">
+
                             {favoriteDoctors.slice(0, 3).map((doctor) => (
-                                <div key={doctor.id} className="pd-favorite-card">
-                                    <img src={doctor.image} alt={doctor.name} />
-                                    <div>
-                                        <h4>{doctor.name}</h4>
-                                        <p className="pd-doctor-specialty">{doctor.specialty}</p>
-                                        <p className="pd-doctor-city">
+
+                                <div
+                                    key={doctor.id}
+                                    className="
+                                        flex items-center gap-3 min-w-0 p-3
+                                        border border-slate-100 rounded-[13px]
+                                        hover:-translate-y-0.5 hover:shadow-md
+                                        transition
+                                    "
+                                >
+
+                                    <img
+                                        src={doctor.image}
+                                        alt={doctor.name}
+                                        className="
+                                            w-[55px] h-[55px] shrink-0
+                                            rounded-xl object-cover bg-slate-100
+                                        "
+                                    />
+
+                                    <div className="min-w-0">
+
+                                        <h4 className="
+                                            text-sm font-bold text-slate-800
+                                            truncate
+                                        ">
+                                            {doctor.name}
+                                        </h4>
+
+                                        <p className="text-xs text-blue-600 mt-1">
+                                            {doctor.specialty}
+                                        </p>
+
+                                        <p className="
+                                            flex items-center gap-1
+                                            text-[11px] text-slate-500 mt-2
+                                        ">
                                             <FiMapPin />
                                             {doctor.city}
                                         </p>
+
                                     </div>
+
                                 </div>
+
                             ))}
+
                         </div>
+
                     ) : (
-                        <div className="pd-no-favorites">
-                            <FiHeart className="pd-no-favorites-icon" size={28} />
-                            <p>No favorite doctors yet</p>
-                            <span>Save doctors to find them easily later.</span>
-                            <Link to="/doctors" className="pd-text-link">
+
+                        <div className="
+                            p-7 rounded-[13px] bg-slate-50 text-center
+                        ">
+
+                            <FiHeart
+                                size={28}
+                                className="mx-auto text-pink-400"
+                            />
+
+                            <p className="text-[13px] font-semibold text-slate-600 mt-3">
+                                No favorite doctors yet
+                            </p>
+
+                            <span className="block text-xs text-slate-400 mt-2 mb-3">
+                                Save doctors to find them easily later.
+                            </span>
+
+                            <Link
+                                to="/doctors"
+                                className="text-xs font-bold text-blue-600 hover:underline"
+                            >
                                 Explore Doctors
                             </Link>
+
                         </div>
+
                     )}
+
                 </section>
 
-                <footer className="pd-footer">
+                {/* FOOTER */}
+                <footer className="
+                    mt-[30px] text-center
+                    text-[11px] text-slate-400
+                ">
                     © 2026 MedConnect. All rights reserved.
                 </footer>
+
             </main>
         </div>
     );
 }
 
 export default PatientDashboard;
-
