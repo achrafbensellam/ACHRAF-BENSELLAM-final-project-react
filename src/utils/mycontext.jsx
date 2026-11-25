@@ -1,4 +1,12 @@
 import { createContext, useEffect, useState } from "react";
+import men1 from '../assets/img/men1.jpg'
+import men2 from '../assets/img/men2.jpg'
+import men3 from '../assets/img/men3.jpg'
+import men4 from '../assets/img/men4.jpg'
+import men5 from '../assets/img/men5.jpg'
+// import men6 from '../assets/img/men6.jpg'
+// import men6 from '../assets/img/men6.jpg'
+// import men6 from '../assets/img/men6.jpg'
 export const MyContext = createContext();
 export const MyProvider = ({ children }) => {
   const adminAccount = {
@@ -45,7 +53,7 @@ const initialDoctors = [
     rating: 4.8,
     available: true,
     phone: "+212 600-223344",
-    image: "https://randomuser.me/api/portraits/men/32.jpg",
+    image:men1,
     role: "doctor",
     city: "Casablanca",
     price: 400,
@@ -87,7 +95,7 @@ const initialDoctors = [
     rating: 4.7,
     available: true,
     phone: "+212 600-445566",
-    image: "https://randomuser.me/api/portraits/men/46.jpg",
+    image:men2,
     role: "doctor",
     city: "Marrakech",
     price: 450,
@@ -129,7 +137,7 @@ const initialDoctors = [
     rating: 4.9,
     available: false,
     phone: "+212 600-667788",
-    image: "https://randomuser.me/api/portraits/men/52.jpg",
+    image: men3,
     role: "doctor",
     city: "Fes",
     price: 500,
@@ -171,7 +179,7 @@ const initialDoctors = [
     rating: 4.6,
     available: true,
     phone: "+212 600-889900",
-    image: "https://randomuser.me/api/portraits/men/29.jpg",
+    image: men4,
     role: "doctor",
     city: "Meknes",
     price: 200,
@@ -213,7 +221,7 @@ const initialDoctors = [
     rating: 4.8,
     available: false,
     phone: "+212 600-101112",
-    image: "https://randomuser.me/api/portraits/men/61.jpg",
+    image: men5,
     role: "doctor",
     city: "Rabat",
     price: 350,

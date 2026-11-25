@@ -100,7 +100,7 @@ function Doctors() {
     setSelectedSpecialty("All");
     setAvailableOnly(false);
   };
-
+  
   return (
     <main className="min-h-screen w-full min-w-0 max-w-full overflow-x-hidden box-border bg-[#f7fafb] text-[#193344] font-sans">
 

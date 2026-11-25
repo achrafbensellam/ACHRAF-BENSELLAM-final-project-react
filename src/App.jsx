@@ -30,7 +30,7 @@ import ManageAppointments from './pages/Admin/adminManageApp';
 function App() {
   return (
     <Routes>
-      <Route path="/" element={ <LoginPage />} />
+      <Route path="/login" element={ <LoginPage />} />
       <Route path="/signup" element={<SignInPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/patient/dashboard" element={<PatientDashboard />}/>
@@ -48,6 +48,7 @@ function App() {
       <Route path="/admin/doctors" element={<ManageDoctors />}/>
       <Route path="/admin/patients" element={<ManagePatients />}/>
       <Route path="/admin/appointments" element={<ManageAppointments />}/>
+      <Route path="/" element={<HomePage />} />
     </Routes>
   );
 }
